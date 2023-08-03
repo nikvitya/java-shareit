@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundException(String.format(USER_NOT_FOUND, userId));
         }
 
-        if (userStorage.getUsers().values().stream().anyMatch(u -> u.getEmail().equals(userDto.getEmail()) && u.getId() != userId))
+        if (userStorage.getUsers().values().stream().anyMatch(u -> u.getEmail().equals(userDto.getEmail()) && !u.getId().equals(userId)))
             throw new EmailAlreadyExistException(String.format(USER_EMAIL_ALREADY_EXIST, userDto.getEmail()));
 
         User user = UserMapper.toUser(userDto);

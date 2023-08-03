@@ -16,7 +16,9 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public List<Item> getAll(Integer userId) {
-        return items.values().stream().filter(i -> i.getOwner().getId() == userId).collect(Collectors.toList());
+        return items.values().stream()
+                .filter(i -> i.getOwner().getId().equals(userId))
+                .collect(Collectors.toList());
     }
 
     @Override
