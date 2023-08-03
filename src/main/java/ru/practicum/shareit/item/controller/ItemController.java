@@ -18,7 +18,7 @@ public class ItemController {
 
     @GetMapping
     public List<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") Integer userId) {
-        return itemService.getAll(userId).stream().map(i-> ItemMapper.toItemDto(i)).collect(Collectors.toList());
+        return itemService.getAll(userId).stream().map(i -> ItemMapper.toItemDto(i)).collect(Collectors.toList());
     }
 
     @GetMapping("/{itemId}")
@@ -27,14 +27,14 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Integer userId,@RequestBody ItemDto itemDto) {
+    public ItemDto createItem(@RequestHeader("X-Sharer-User-Id") Integer userId, @RequestBody ItemDto itemDto) {
         return ItemMapper.toItemDto(itemService.create(userId, itemDto));
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto update(@RequestHeader("X-Sharer-User-Id") Integer userId,
                           @PathVariable Integer itemId,
-                          @RequestBody  ItemDto itemDto) {
+                          @RequestBody ItemDto itemDto) {
         return ItemMapper.toItemDto(itemService.update(userId, itemId, itemDto));
     }
 

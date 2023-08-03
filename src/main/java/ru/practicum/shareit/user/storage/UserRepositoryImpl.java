@@ -47,7 +47,7 @@ public class UserRepositoryImpl implements UserRepository {
 
         User updatedUser = User.builder()
                 .id(userId)
-                .name(user.getName() == null ? users.get(userId).getName(): user.getName())
+                .name(user.getName() == null ? users.get(userId).getName() : user.getName())
                 .email(user.getEmail() == null ? users.get(userId).getEmail() : user.getEmail())
                 .build();
         users.put(userId, updatedUser);

@@ -7,6 +7,7 @@ import java.util.List;
 public interface ItemRepository {
 
     List<Item> getAll(Integer userId);
+
     Item getById(Integer itemId);
 
     Item create(Item item);

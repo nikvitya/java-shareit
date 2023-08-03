@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Integer id) {
         UserValidate.validateId(id);
         if (!userStorage.getUsers().containsKey(id)) {
-            throw new NotFoundException(String.format(USER_NOT_FOUND,id));
+            throw new NotFoundException(String.format(USER_NOT_FOUND, id));
         }
         return userStorage.getUserById(id);
     }
@@ -39,8 +39,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(UserDto userDto) {
         UserDtoValidate.validateUserDto(userDto);
-        if (userStorage.getUsers().values().stream().anyMatch(u-> u.getEmail().equals(userDto.getEmail()))) {
-            throw new EmailAlreadyExistException(String.format(USER_EMAIL_ALREADY_EXIST,userDto.getEmail()));
+        if (userStorage.getUsers().values().stream().anyMatch(u -> u.getEmail().equals(userDto.getEmail()))) {
+            throw new EmailAlreadyExistException(String.format(USER_EMAIL_ALREADY_EXIST, userDto.getEmail()));
         }
 
         User user = UserMapper.toUser(userDto);
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         UserDtoValidate.validateDtoId(userId);
 
         if (!userStorage.getUsers().containsKey(userId)) {
-            throw new NotFoundException(String.format(USER_NOT_FOUND,userId));
+            throw new NotFoundException(String.format(USER_NOT_FOUND, userId));
         }
 
         if (userStorage.getUsers().values().stream().anyMatch(u -> u.getEmail().equals(userDto.getEmail()) && u.getId() != userId))
