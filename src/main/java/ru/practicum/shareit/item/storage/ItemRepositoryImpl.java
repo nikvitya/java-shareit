@@ -34,17 +34,17 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Item update(Item item, Item oldItem) {
-        Item newItem = Item.builder()
-                .id(item.getId())
-                .name(item.getName() == null ? oldItem.getName() : item.getName())
-                .description(item.getDescription() == null ? oldItem.getDescription() : item.getDescription())
-                .available(item.getAvailable() == null ? oldItem.getAvailable() : item.getAvailable())
+    public Item update(Item newItem, Item oldItem) {
+        Item updatedItem = Item.builder()
+                .id(newItem.getId())
+                .name(newItem.getName() == null ? oldItem.getName() : newItem.getName())
+                .description(newItem.getDescription() == null ? oldItem.getDescription() : newItem.getDescription())
+                .available(newItem.getAvailable() == null ? oldItem.getAvailable() : newItem.getAvailable())
                 .owner(oldItem.getOwner())
                 .request(oldItem.getRequest())
                 .build();
-        items.put(item.getId(), newItem);
-        return newItem;
+        items.put(newItem.getId(), updatedItem);
+        return updatedItem;
     }
 
     @Override

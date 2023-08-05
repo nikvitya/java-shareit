@@ -12,6 +12,8 @@ import ru.practicum.shareit.user.validator.UserDtoValidate;
 import ru.practicum.shareit.user.validator.UserValidate;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ru.practicum.shareit.exception.Constants.USER_EMAIL_ALREADY_EXIST;
 import static ru.practicum.shareit.exception.Constants.USER_NOT_FOUND;
@@ -23,32 +25,37 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userStorage;
 
     @Override
-    public List<User> getAll() {
-        return userStorage.getAll();
+    public List<UserDto> getAll() {
+        return userStorage.getAll().stream()
+                .map(user -> UserMapper.toUserDto(user)).collect(Collectors.toList());
     }
 
     @Override
-    public User getUserById(Integer id) {
+    public UserDto getUserById(Integer id) {
         UserValidate.validateId(id);
         if (!userStorage.getUsers().containsKey(id)) {
             throw new NotFoundException(String.format(USER_NOT_FOUND, id));
         }
-        return userStorage.getUserById(id);
+        return UserMapper.toUserDto(userStorage.getUserById(id));
     }
 
     @Override
-    public User create(UserDto userDto) {
+    public UserDto create(UserDto userDto) {
         UserDtoValidate.validateUserDto(userDto);
-        if (userStorage.getUsers().values().stream().anyMatch(u -> u.getEmail().equals(userDto.getEmail()))) {
+
+        Set<String> emails = getAllEmails();
+
+        if (emails.contains(userDto.getEmail())) {
             throw new EmailAlreadyExistException(String.format(USER_EMAIL_ALREADY_EXIST, userDto.getEmail()));
         }
 
         User user = UserMapper.toUser(userDto);
-        return userStorage.create(user);
+
+        return UserMapper.toUserDto(userStorage.create(user));
     }
 
     @Override
-    public User update(UserDto userDto, Integer userId) {
+    public UserDto update(UserDto userDto, Integer userId) {
         UserDtoValidate.validateDtoId(userId);
 
         if (!userStorage.getUsers().containsKey(userId)) {
@@ -59,7 +66,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistException(String.format(USER_EMAIL_ALREADY_EXIST, userDto.getEmail()));
 
         User user = UserMapper.toUser(userDto);
-        return userStorage.update(userId, user);
+        return UserMapper.toUserDto(userStorage.update(userId, user));
     }
 
     @Override
@@ -76,4 +83,12 @@ public class UserServiceImpl implements UserService {
     public void deleteAll() {
         userStorage.deleteAll();
     }
+
+    private Set<String> getAllEmails() {
+        return userStorage.getAll()
+                .stream()
+                .map(User::getEmail)
+                .collect(Collectors.toSet());
+    }
+
 }
