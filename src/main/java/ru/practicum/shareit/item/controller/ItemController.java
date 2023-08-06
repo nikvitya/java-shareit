@@ -34,7 +34,7 @@ public class ItemController {
     public ItemDto update(@RequestHeader("X-Sharer-User-Id") Integer userId,
                           @PathVariable Integer itemId,
                           @RequestBody ItemDto itemDto) {
-        return itemService.update(userId, itemId, itemDto);
+        return itemService.up date(userId, itemId, itemDto);
     }
 
     @GetMapping("/search")
