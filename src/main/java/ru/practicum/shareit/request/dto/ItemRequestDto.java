@@ -1,43 +1,22 @@
 package ru.practicum.shareit.request.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 import ru.practicum.shareit.user.model.User;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 public class ItemRequestDto {
-
-    private Integer id;
+    private long id;
+    @NotBlank
     private String description;
+
+    @NotNull
     private User requestor;
-    private LocalDateTime created;
+    @NotNull
+    private final LocalDateTime created = LocalDateTime.now();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ItemRequestDto)) return false;
-        ItemRequestDto that = (ItemRequestDto) o;
-        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(requestor, that.requestor) && Objects.equals(created, that.created);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, requestor, created);
-    }
-
-    @Override
-    public String toString() {
-        return "ItemRequestDto{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", requestor=" + requestor +
-                ", created=" + created +
-                '}';
-    }
 }
