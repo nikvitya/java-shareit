@@ -8,7 +8,7 @@ import ru.practicum.shareit.validation.CreateGroup;
 import ru.practicum.shareit.validation.UpdateGroup;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequiredArgsConstructor
