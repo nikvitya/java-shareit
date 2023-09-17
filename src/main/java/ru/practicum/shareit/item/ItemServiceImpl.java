@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.practicum.shareit.booking.BookingMapper;
 import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingDtoForGetItemResponse;
@@ -12,12 +14,10 @@ import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.IncompatibleUserIdException;
 import ru.practicum.shareit.exception.ItemNotFoundException;
 import ru.practicum.shareit.exception.UserNotBookedBeforeException;
-import ru.practicum.shareit.item.dto.CommentResponse;
-import ru.practicum.shareit.item.dto.CreateCommentRequest;
-import ru.practicum.shareit.item.dto.GetItemResponse;
-import ru.practicum.shareit.item.dto.SearchItemResponse;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
@@ -36,20 +36,26 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
 
     @Override
-    public Item saveItem(Item item) {
-        return itemRepository.save(item);
+    public CreateItemResponse saveItem(long userId, CreateItemRequest createItemRequest) {
+
+        return ItemMapper.toCreateItemResponse(itemRepository
+                .save(ItemMapper.toItem(UserMapper.toUser(userService.findById(userId)), createItemRequest)));
     }
 
     @Override
-    public Item update(Item item) {
+    public CreateItemResponse update(long userId,long itemId,CreateItemRequest createItemRequest) {
+
+        Item item =  ItemMapper.toItem(UserMapper.toUser(userService.findById(userId)), createItemRequest).setId(itemId);
+
         Item oldItem = findById(item.getId());
         if (!Objects.equals(item.getOwner().getId(), oldItem.getOwner().getId()))
             throw new IncompatibleUserIdException("id пользователей не совпадают.");
 
-        return itemRepository.save(oldItem
+        return ItemMapper.toCreateItemResponse(
+                itemRepository.save(oldItem
                 .setName(item.getName() == null ? oldItem.getName() : item.getName())
                 .setDescription(item.getDescription() == null ? oldItem.getDescription() : item.getDescription())
-                .setAvailable(item.getAvailable() == null ? oldItem.getAvailable() : item.getAvailable()));
+                .setAvailable(item.getAvailable() == null ? oldItem.getAvailable() : item.getAvailable())));
     }
 
     @Override
@@ -63,6 +69,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public GetItemResponse findDtoById(long itemId, long ownerId) {
         Item item = findById(itemId);
+
         List<CommentResponse> comments = commentRepository.findByItem_IdOrderByCreatedAsc(itemId);
         if (!Objects.equals(item.getOwner().getId(), ownerId))
             return ItemMapper.toGetItemResponse(item, null, null, comments);
@@ -100,6 +107,6 @@ public class ItemServiceImpl implements ItemService {
         return CommentMapper.toCommentResponse(commentRepository.save(new Comment()
                 .setText(createCommentRequest.getText())
                 .setItem(findById(itemId))
-                .setAuthor(userService.findById(authorId))));
+                .setAuthor(UserMapper.toUser(userService.findById(authorId)))));
     }
 }

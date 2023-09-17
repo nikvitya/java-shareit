@@ -1,5 +1,7 @@
 package ru.practicum.shareit.item;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 
@@ -7,9 +9,9 @@ import java.util.List;
 
 public interface ItemService {
 
-    Item saveItem(Item item);
+    CreateItemResponse saveItem(long userId, CreateItemRequest createItemRequest);
 
-    Item update(Item item);
+    CreateItemResponse update(long userId, long itemId, CreateItemRequest createItemRequest);
 
     Item findById(long itemId);
 

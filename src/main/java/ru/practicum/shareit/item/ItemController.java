@@ -13,23 +13,18 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
     private final ItemService itemService;
-    private final UserService userService;
 
     @PostMapping
     public CreateItemResponse saveItem(@RequestHeader("X-Sharer-User-Id") long userId,
                                        @RequestBody @Valid CreateItemRequest createItemRequest) {
-        return ItemMapper.toCreateItemResponse(
-                itemService.saveItem(ItemMapper.toItem(userService.findById(userId), createItemRequest))
-        );
+        return itemService.saveItem(userId, createItemRequest);
     }
 
     @PatchMapping("/{itemId}")
     public CreateItemResponse update(@RequestHeader("X-Sharer-User-Id") long userId,
                                      @PathVariable long itemId,
                                      @RequestBody CreateItemRequest createItemRequest) {
-        return ItemMapper.toCreateItemResponse(itemService.update(
-                ItemMapper.toItem(userService.findById(userId), createItemRequest).setId(itemId)
-        ));
+        return itemService.update(userId, itemId, createItemRequest);
     }
 
     @GetMapping("/{itemId}")
@@ -49,7 +44,8 @@ public class ItemController {
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentResponse saveComment(@RequestHeader("X-Sharer-User-Id") Long authorId, @PathVariable Long itemId,
+    public CommentResponse saveComment(@RequestHeader("X-Sharer-User-Id") Long authorId,
+                                       @PathVariable Long itemId,
                                        @RequestBody @Valid CreateCommentRequest createCommentRequest) {
         return itemService.saveComment(authorId, itemId, createCommentRequest);
     }

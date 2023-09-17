@@ -18,22 +18,23 @@ public class UserController {
 
     @PostMapping
     public UserDto add(@RequestBody @Validated(CreateGroup.class) UserDto userDto) {
-        return UserMapper.toUserDto(userService.add(UserMapper.toUser(userDto)));
+        return userService.add(userDto);
     }
 
     @GetMapping
     public List<UserDto> findAll() {
-        return userService.findAll().stream().map(UserMapper::toUserDto).collect(Collectors.toList());
+        return userService.findAll();
     }
 
     @GetMapping("/{userId}")
     public UserDto findById(@PathVariable long userId) {
-        return UserMapper.toUserDto(userService.findById(userId));
+        return userService.findById(userId);
     }
 
     @PatchMapping("/{userId}")
-    public UserDto update(@RequestBody @Validated(UpdateGroup.class) UserDto userDto, @PathVariable long userId) {
-        return UserMapper.toUserDto(userService.update(UserMapper.toUser(userDto.setId(userId))));
+    public UserDto update(@RequestBody @Validated(UpdateGroup.class) UserDto userDto,
+                          @PathVariable long userId) {
+        return userService.update(userDto,userId);
     }
 
     @DeleteMapping("/{userId}")

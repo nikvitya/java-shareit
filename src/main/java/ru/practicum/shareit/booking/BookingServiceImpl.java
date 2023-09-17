@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.booking.dto.CreateBookingDto;
+import ru.practicum.shareit.booking.dto.GetBookingDto;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.*;
 import ru.practicum.shareit.item.ItemService;
+import ru.practicum.shareit.user.UserMapper;
 import ru.practicum.shareit.user.UserService;
 
 import java.time.LocalDateTime;
@@ -23,39 +26,51 @@ public class BookingServiceImpl implements BookingService {
     private final ItemService itemService;
 
     @Override
-    public Booking save(Booking booking) {
+    public GetBookingDto save(CreateBookingDto createBookingDto, Long bookerId) {
+        Booking booking = new Booking()
+                .setStart(createBookingDto.getStart())
+                .setEnd(createBookingDto.getEnd())
+                .setStatus(Status.WAITING)
+                .setBooker(UserMapper.toUser(userService.findById(bookerId)))
+                .setItem(itemService.findById(createBookingDto.getItemId()));
+
         if (Objects.equals(itemService.findById(booking.getItem().getId()).getOwner().getId(),
                 booking.getBooker().getId()))
             throw new WrongUserIdException("Создание брони не доступно для владельца предмета.");
-
         if (!booking.getItem().getAvailable())
             throw new ItemNotAvailableException("Предмет не доступен для бронирования.");
         if (booking.getStart().isAfter(booking.getEnd()) || booking.getStart().isEqual(booking.getEnd()))
             throw new StartNotBeforeEndException("Время начала использования вещи должно быть строго раньше " +
                     "времени окончания.");
-        return bookingRepository.save(booking);
+
+        return BookingMapper.toGetBookingDto(bookingRepository.save(booking));
     }
 
     @Override
-    public Booking update(Long bookingId, Long ownerId, boolean approved) {
+    public GetBookingDto update(Long bookingId, Long ownerId, boolean approved) {
         Booking oldBooking = findById(bookingId);
         if (!Objects.equals(oldBooking.getItem().getOwner().getId(), ownerId))
             throw new WrongUserIdException("Обновление статуса брони доступно только для владельцев предметов.");
         if (!Objects.equals(oldBooking.getStatus(), Status.WAITING))
             throw new StatusAlreadyChangedException(String.format("Статус был изменён владельцем предмета ранее на %s",
                     oldBooking.getStatus()));
-        return bookingRepository.save(oldBooking.setStatus(approved ? Status.APPROVED : Status.REJECTED));
+
+        return BookingMapper.toGetBookingDto
+                (bookingRepository.save(oldBooking.setStatus(approved ? Status.APPROVED : Status.REJECTED)));
     }
 
     @Override
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    public Booking findByIdAndOwnerOrBookerId(Long bookingId, Long ownerOrBookerId) {
+    public GetBookingDto findByIdAndOwnerOrBookerId(Long bookingId, Long ownerOrBookerId) {
         Booking booking = findById(bookingId);
+
         if (!Objects.equals(booking.getItem().getOwner().getId(), ownerOrBookerId)
                 && !Objects.equals(booking.getBooker().getId(), ownerOrBookerId))
-            throw new WrongUserIdException(String.format("Пользователь с id %d не является владельцем " +
+            throw new WrongUserIdException(
+                    String.format("Пользователь с id %d не является владельцем " +
                     "предмета или бронирующим, поэтому информация о брони недоступна.", ownerOrBookerId));
-        return booking;
+
+        return BookingMapper.toGetBookingDto(booking);
     }
 
     @Override

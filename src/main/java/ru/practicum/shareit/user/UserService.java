@@ -1,17 +1,19 @@
 package ru.practicum.shareit.user;
 
+import org.springframework.web.bind.annotation.PathVariable;
+import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    User add(User user);
+    UserDto add(UserDto userDto);
 
-    List<User> findAll();
+    List<UserDto> findAll();
 
-    User findById(long userId);
+    UserDto findById(long userId);
 
-    User update(User user);
+    UserDto update(UserDto userDto, long userId);
 
     void delete(long userId);
 }
