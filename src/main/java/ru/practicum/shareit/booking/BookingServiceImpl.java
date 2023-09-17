@@ -55,8 +55,7 @@ public class BookingServiceImpl implements BookingService {
             throw new StatusAlreadyChangedException(String.format("Статус был изменён владельцем предмета ранее на %s",
                     oldBooking.getStatus()));
 
-        return BookingMapper.toGetBookingDto
-                (bookingRepository.save(oldBooking.setStatus(approved ? Status.APPROVED : Status.REJECTED)));
+        return BookingMapper.toGetBookingDto(bookingRepository.save(oldBooking.setStatus(approved ? Status.APPROVED : Status.REJECTED)));
     }
 
     @Override
