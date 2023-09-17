@@ -67,7 +67,7 @@ public class BookingServiceImpl implements BookingService {
                 && !Objects.equals(booking.getBooker().getId(), ownerOrBookerId))
             throw new WrongUserIdException(
                     String.format("Пользователь с id %d не является владельцем " +
-                    "предмета или бронирующим, поэтому информация о брони недоступна.", ownerOrBookerId));
+                            "предмета или бронирующим, поэтому информация о брони недоступна.", ownerOrBookerId));
 
         return BookingMapper.toGetBookingDto(booking);
     }

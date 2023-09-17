@@ -41,9 +41,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public CreateItemResponse update(long userId,long itemId,CreateItemRequest createItemRequest) {
+    public CreateItemResponse update(long userId, long itemId, CreateItemRequest createItemRequest) {
 
-        Item item =  ItemMapper.toItem(UserMapper.toUser(userService.findById(userId)), createItemRequest).setId(itemId);
+        Item item = ItemMapper.toItem(UserMapper.toUser(userService.findById(userId)), createItemRequest).setId(itemId);
 
         Item oldItem = findById(item.getId());
         if (!Objects.equals(item.getOwner().getId(), oldItem.getOwner().getId()))
@@ -51,9 +51,9 @@ public class ItemServiceImpl implements ItemService {
 
         return ItemMapper.toCreateItemResponse(
                 itemRepository.save(oldItem
-                .setName(item.getName() == null ? oldItem.getName() : item.getName())
-                .setDescription(item.getDescription() == null ? oldItem.getDescription() : item.getDescription())
-                .setAvailable(item.getAvailable() == null ? oldItem.getAvailable() : item.getAvailable())));
+                        .setName(item.getName() == null ? oldItem.getName() : item.getName())
+                        .setDescription(item.getDescription() == null ? oldItem.getDescription() : item.getDescription())
+                        .setAvailable(item.getAvailable() == null ? oldItem.getAvailable() : item.getAvailable())));
     }
 
     @Override
