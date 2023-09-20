@@ -65,6 +65,13 @@ public class ErrorHandlerTests {
     }
 
     @Test
+    void handleIncompatibleItemIdExceptionTest() {
+        IncompatibleItemIdException incompatibleItemIdException = new IncompatibleItemIdException("n");
+        ErrorResponse errorResponse = errorHandler.handleIncompatibleItemIdException(incompatibleItemIdException);
+        assertEquals("id предметов не совпадают.", errorResponse.getError());
+    }
+
+    @Test
     void handleEmailAlreadyExistExceptionTest() {
         EmailAlreadyExistException emailAlreadyExistException = new EmailAlreadyExistException("/ ");
         ErrorResponse errorResponse = errorHandler.handleEmailAlreadyExistException(emailAlreadyExistException);
@@ -91,7 +98,6 @@ public class ErrorHandlerTests {
         ErrorResponse errorResponse = errorHandler.handleItemNotFoundException(itemNotFoundException);
         assertEquals("Предмет не найден.", errorResponse.getError());
     }
-
 
     @Test
     void handleExceptionTest() {
