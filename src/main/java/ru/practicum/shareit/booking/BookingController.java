@@ -1,50 +1,57 @@
 package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.booking.dto.CreateBookingDto;
-import ru.practicum.shareit.booking.dto.GetBookingDto;
+import ru.practicum.shareit.booking.dto.BookingResponse;
+import ru.practicum.shareit.booking.dto.CreateBookingRequest;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static ru.practicum.shareit.util.Constants.USER_ID_HEADER;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @RequestMapping(path = "/bookings")
 public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public GetBookingDto save(@RequestHeader("X-Sharer-User-Id") Long bookerId,
-                              @RequestBody @Valid CreateBookingDto createBookingDto) {
-        return bookingService.save(createBookingDto, bookerId);
+    public BookingResponse save(@RequestHeader(USER_ID_HEADER) Long bookerId,
+                                @RequestBody @Valid CreateBookingRequest createBookingDto) {
+        return bookingService.save(bookerId, createBookingDto);
     }
 
     @PatchMapping("/{bookingId}")
-    public GetBookingDto update(@PathVariable Long bookingId,
-                                @RequestHeader("X-Sharer-User-Id") Long ownerId,
-                                @RequestParam boolean approved) {
+    public BookingResponse update(@PathVariable Long bookingId,
+                                  @RequestHeader(USER_ID_HEADER) Long ownerId,
+                                  @RequestParam boolean approved) {
         return bookingService.update(bookingId, ownerId, approved);
     }
 
     @GetMapping("{bookingId}")
-    public GetBookingDto findByIdAndOwnerOrBookerId(@PathVariable Long bookingId,
-                                                    @RequestHeader("X-Sharer-User-Id") Long ownerOrBookerId) {
-        return bookingService.findByIdAndOwnerOrBookerId(bookingId, ownerOrBookerId);
+    public BookingResponse findByIdAndUserId(@PathVariable Long bookingId,
+                                             @RequestHeader(USER_ID_HEADER) Long userId) {
+        return bookingService.findByIdAndUserId(bookingId, userId);
     }
 
     @GetMapping
-    public List<GetBookingDto> findByBookerIdAndState(@RequestHeader("X-Sharer-User-Id") Long bookerId,
-                                                      @RequestParam(defaultValue = "ALL") String state) {
-        return bookingService.findByBookerIdAndState(bookerId, state).stream()
-                .map(BookingMapper::toGetBookingDto).collect(Collectors.toList());
+    public List<BookingResponse> findByBookerIdAndState(@RequestHeader(USER_ID_HEADER) Long bookerId,
+                                                        @RequestParam(defaultValue = "ALL") String state,
+                                                        @RequestParam(defaultValue = "0") @Min(0) @Max(Long.MAX_VALUE) long from,
+                                                        @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
+        return bookingService.findByBookerIdAndState(bookerId, state, from, size);
     }
 
     @GetMapping("/owner")
-    public List<GetBookingDto> findByItemOwnerIdAndState(@RequestHeader("X-Sharer-User-Id") Long ownerId,
-                                                         @RequestParam(defaultValue = "ALL") String state) {
-        return bookingService.findByItemOwnerIdAndState(ownerId, state).stream()
-                .map(BookingMapper::toGetBookingDto).collect(Collectors.toList());
+    public List<BookingResponse> findByItemOwnerIdAndState(@RequestHeader(USER_ID_HEADER) Long ownerId,
+                                                           @RequestParam(defaultValue = "ALL") String state,
+                                                           @RequestParam(defaultValue = "0") @Min(0) @Max(Long.MAX_VALUE) long from,
+                                                           @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
+        return bookingService.findByItemOwnerIdAndState(ownerId, state, from, size);
     }
 }

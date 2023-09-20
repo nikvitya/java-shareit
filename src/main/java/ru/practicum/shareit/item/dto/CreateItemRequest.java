@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class CreateItemRequest {
-
     @NotBlank
     private String name;
 
@@ -18,4 +17,6 @@ public class CreateItemRequest {
 
     @NotNull
     private Boolean available;
+
+    private Long requestId;
 }

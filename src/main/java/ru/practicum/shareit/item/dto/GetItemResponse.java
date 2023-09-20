@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.booking.dto.BookingDtoForGetItemResponse;
+import ru.practicum.shareit.booking.dto.BookingShort;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class GetItemResponse {
     private String name;
     private String description;
     private Boolean available;
-    private BookingDtoForGetItemResponse lastBooking;
-    private BookingDtoForGetItemResponse nextBooking;
+    private BookingShort lastBooking;
+    private BookingShort nextBooking;
     private List<CommentResponse> comments;
 }
