@@ -14,7 +14,6 @@ import ru.practicum.shareit.booking.entity.Booking;
 import ru.practicum.shareit.booking.entity.Status;
 import ru.practicum.shareit.exception.IncompatibleUserIdException;
 import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.entity.Comment;
 import ru.practicum.shareit.item.entity.Item;
