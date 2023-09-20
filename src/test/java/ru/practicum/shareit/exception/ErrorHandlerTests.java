@@ -58,6 +58,13 @@ public class ErrorHandlerTests {
     }
 
     @Test
+    void handleItemNotAvailableExceptionTest() {
+        ItemNotAvailableException itemNotAvailableException = new ItemNotAvailableException("n");
+        ErrorResponse errorResponse = errorHandler.handleItemNotAvailableException(itemNotAvailableException);
+        assertEquals("Предмет не доступен.", errorResponse.getError());
+    }
+
+    @Test
     void handleEmailAlreadyExistExceptionTest() {
         EmailAlreadyExistException emailAlreadyExistException = new EmailAlreadyExistException("/ ");
         ErrorResponse errorResponse = errorHandler.handleEmailAlreadyExistException(emailAlreadyExistException);
