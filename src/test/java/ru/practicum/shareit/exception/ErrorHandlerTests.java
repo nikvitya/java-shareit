@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import ru.practicum.shareit.exception.handler.ErrorHandler;
 import ru.practicum.shareit.exception.handler.ErrorResponse;
 
@@ -27,6 +30,35 @@ public class ErrorHandlerTests {
         StatusAlreadyChangedException statusAlreadyChangedException = new StatusAlreadyChangedException("n");
         ErrorResponse errorResponse = errorHandler.handleStatusAlreadyChangedException(statusAlreadyChangedException);
         assertEquals("Статус был изменён ранее.", errorResponse.getError());
+    }
+
+
+    @Test
+    void handleWrongUserIdExceptionTest() {
+        WrongUserIdException wrongUserIdException = new WrongUserIdException("n");
+        ErrorResponse errorResponse = errorHandler.handleWrongUserIdException(wrongUserIdException);
+        assertEquals("Запрещенный id пользователя.", errorResponse.getError());
+    }
+
+    @Test
+    void  handleUnknownStateExceptionTest() {
+        UnknownStateException unknownStateException = new UnknownStateException("n");
+        ErrorResponse errorResponse = errorHandler.handleUnknownStateException(unknownStateException);
+        assertEquals("Unknown state: UNSUPPORTED_STATUS", errorResponse.getError());
+    }
+
+    @Test
+    void  handleBookingNotFoundExceptionTest() {
+        BookingNotFoundException bookingNotFoundException = new BookingNotFoundException("n");
+        ErrorResponse errorResponse = errorHandler.handleBookingNotFoundException(bookingNotFoundException);
+        assertEquals("Бронь не найдена.", errorResponse.getError());
+    }
+
+    @Test
+    void  handleStartAfterEndExceptionTest() {
+        StartNotBeforeEndException startNotBeforeEndException= new StartNotBeforeEndException("n");
+        ErrorResponse errorResponse = errorHandler.handleStartAfterEndException(startNotBeforeEndException);
+        assertEquals("Начало должно быть раньше окончания.", errorResponse.getError());
     }
 
     @Test
