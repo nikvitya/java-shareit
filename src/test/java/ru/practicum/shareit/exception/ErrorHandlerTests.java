@@ -32,7 +32,6 @@ public class ErrorHandlerTests {
         assertEquals("Статус был изменён ранее.", errorResponse.getError());
     }
 
-
     @Test
     void handleWrongUserIdExceptionTest() {
         WrongUserIdException wrongUserIdException = new WrongUserIdException("n");
@@ -41,22 +40,22 @@ public class ErrorHandlerTests {
     }
 
     @Test
-    void  handleUnknownStateExceptionTest() {
+    void handleUnknownStateExceptionTest() {
         UnknownStateException unknownStateException = new UnknownStateException("n");
         ErrorResponse errorResponse = errorHandler.handleUnknownStateException(unknownStateException);
         assertEquals("Unknown state: UNSUPPORTED_STATUS", errorResponse.getError());
     }
 
     @Test
-    void  handleBookingNotFoundExceptionTest() {
+    void handleBookingNotFoundExceptionTest() {
         BookingNotFoundException bookingNotFoundException = new BookingNotFoundException("n");
         ErrorResponse errorResponse = errorHandler.handleBookingNotFoundException(bookingNotFoundException);
         assertEquals("Бронь не найдена.", errorResponse.getError());
     }
 
     @Test
-    void  handleStartAfterEndExceptionTest() {
-        StartNotBeforeEndException startNotBeforeEndException= new StartNotBeforeEndException("n");
+    void handleStartAfterEndExceptionTest() {
+        StartNotBeforeEndException startNotBeforeEndException = new StartNotBeforeEndException("n");
         ErrorResponse errorResponse = errorHandler.handleStartAfterEndException(startNotBeforeEndException);
         assertEquals("Начало должно быть раньше окончания.", errorResponse.getError());
     }
