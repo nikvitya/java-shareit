@@ -44,8 +44,9 @@ public class ItemServiceImpl implements ItemService {
         Item item = ItemMapper.toItem(userService.findById(ownerId), createItemRequest);
 
         Long requestId = createItemRequest.getRequestId();
-        if (requestId != null)
+        if (requestId != null) {
             item.setRequest(requestService.findById(requestId));
+        }
 
         return ItemMapper.toItemResponse(itemRepository.save(item));
     }
