@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import ru.practicum.shareit.item.dto.CreateItemRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +16,7 @@ class CreateItemRequestTest {
     @Test
     void testCreateItemRequest() throws Exception {
         CreateItemRequest createItemRequest =
-                new CreateItemRequest("Дрель", "ударная", true,1L);
+                new CreateItemRequest("Дрель", "ударная", true, 1L);
         JsonContent<CreateItemRequest> result = json.write(createItemRequest);
 
         assertThat(result).hasJsonPathValue("$.name");
