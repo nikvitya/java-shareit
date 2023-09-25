@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.practicum.shareit.exception.*;
 
-import javax.validation.ConstraintViolationException;
-
 @Slf4j
 @RestControllerAdvice("ru.practicum.shareit")
 public class ErrorHandler {
@@ -113,8 +111,7 @@ public class ErrorHandler {
             MissingRequestHeaderException.class,
             MethodArgumentTypeMismatchException.class,
             MissingServletRequestParameterException.class,
-            IllegalStateException.class,
-            ConstraintViolationException.class})
+            IllegalStateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMethodArgumentNotValidException(Exception e) {
         log.warn("{}", e.getMessage());

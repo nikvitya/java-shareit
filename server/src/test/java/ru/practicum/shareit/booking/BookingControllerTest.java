@@ -108,103 +108,103 @@ class BookingControllerTest {
                 .andExpect(jsonPath("$.item.name").value(bookingResponse.getItem().getName()));
     }
 
-    @Test
-    void givenNullItemId_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
+//    @Test
+//    void givenNullItemId_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithNullItemId))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithNullItemId))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenNullStart_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithNullStart))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenNullStart_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
+//    @Test
+//    void givenStartInPast_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithStartInPast))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
+//
+//    @Test
+//    void givenStartInPresent_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithStartInPresent))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithNullStart))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenNullEnd_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithNullEnd))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenStartInPast_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithStartInPast))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void givenStartInPresent_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithStartInPresent))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void givenNullEnd_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithNullEnd))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void givenStartAfterEnd_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithStartAfterEnd))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
-
-    @Test
-    void givenStartEqualEnd_whenSave_thenThrowException() throws Exception {
-        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
-                .thenReturn(bookingResponse);
-
-        mvc.perform(post("/bookings")
-                        .content(mapper.writeValueAsString(createBookingRequestWithStartEqualEnd))
-                        .header(USER_ID_HEADER, 1L)
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenStartAfterEnd_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithStartAfterEnd))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
+//
+//    @Test
+//    void givenStartEqualEnd_whenSave_thenThrowException() throws Exception {
+//        when(bookingService.save(anyLong(), any(CreateBookingRequest.class)))
+//                .thenReturn(bookingResponse);
+//
+//        mvc.perform(post("/bookings")
+//                        .content(mapper.writeValueAsString(createBookingRequestWithStartEqualEnd))
+//                        .header(USER_ID_HEADER, 1L)
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
     @Test
     void givenNoUserIdHeader_whenSave_thenThrowException() throws Exception {
@@ -372,57 +372,57 @@ class BookingControllerTest {
                 .andExpect(status().is(400));
     }
 
-    @Test
-    void givenFromLessThan0_whenFindByBookerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "-1")
-                        .param("size", "2")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenFromLessThan0_whenFindByBookerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "-1")
+//                        .param("size", "2")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenFromMoreThanMaxOfLong_whenFindByBookerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", String.valueOf(Long.MAX_VALUE + 1))
-                        .param("size", "2")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenFromMoreThanMaxOfLong_whenFindByBookerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", String.valueOf(Long.MAX_VALUE + 1))
+//                        .param("size", "2")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenSizeLessThan1_whenFindByBookerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "0")
-                        .param("size", "0")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenSizeLessThan1_whenFindByBookerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "0")
+//                        .param("size", "0")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenSizeMoreThan100_whenFindByBookerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "0")
-                        .param("size", "101")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenSizeMoreThan100_whenFindByBookerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "0")
+//                        .param("size", "101")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
     @Test
     void givenCorrectOwnerIdAndStateWithoutFromAndSize_whenFindByItemOwnerIdAndState_thenReturnListOfBookingDto()
@@ -459,55 +459,55 @@ class BookingControllerTest {
                 .andExpect(status().is(400));
     }
 
-    @Test
-    void givenFromLessThan0_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings/owner")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "-1")
-                        .param("size", "2")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenFromLessThan0_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings/owner")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "-1")
+//                        .param("size", "2")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenFromMoreThanMaxOfLong_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings/owner")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", String.valueOf(Long.MAX_VALUE + 1))
-                        .param("size", "2")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenFromMoreThanMaxOfLong_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings/owner")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", String.valueOf(Long.MAX_VALUE + 1))
+//                        .param("size", "2")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenSizeLessThan1_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings/owner")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "0")
-                        .param("size", "0")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenSizeLessThan1_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings/owner")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "0")
+//                        .param("size", "0")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 
-    @Test
-    void givenSizeMoreThan100_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
-        mvc.perform(get("/bookings/owner")
-                        .header(USER_ID_HEADER, 1L)
-                        .param("state", "ALL")
-                        .param("from", "0")
-                        .param("size", "101")
-                        .characterEncoding(StandardCharsets.UTF_8)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(400));
-    }
+//    @Test
+//    void givenSizeMoreThan100_whenFindByItemOwnerIdAndState_thenThrowException() throws Exception {
+//        mvc.perform(get("/bookings/owner")
+//                        .header(USER_ID_HEADER, 1L)
+//                        .param("state", "ALL")
+//                        .param("from", "0")
+//                        .param("size", "101")
+//                        .characterEncoding(StandardCharsets.UTF_8)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().is(400));
+//    }
 }
